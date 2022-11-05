@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/colors";
 import OutlinedButton from "./OutlinedButton";
 import {
@@ -6,9 +6,16 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import MapView, { Marker } from "react-native-maps";
 
 const LocationPicker = () => {
   const [locationPermission, requestPermission] = useForegroundPermissions();
+  const [location, setLocation] = useState();
+  const [loading, setIsLoading] = useState(false);
+
+  const navigation = useNavigation();
 
   const verifyPermissions = async () => {
     if (locationPermission.status === PermissionStatus.UNDETERMINED) {
@@ -33,16 +40,35 @@ const LocationPicker = () => {
     if (!hasPermission) {
       return;
     }
-
+    setIsLoading(true);
     const location = await getCurrentPositionAsync();
-    console.log(location);
+    setIsLoading(false);
+    setLocation(location);
   };
 
-  const pickOnMap = () => {};
+  const pickOnMap = () => {
+    navigation.navigate("Map");
+  };
 
   return (
     <View>
-      <View style={styles.mapPreview}></View>
+      <View style={styles.mapPreview}>
+        {loading ? (
+          <Text>Getting your location...</Text>
+        ) : location ? (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          ></MapView>
+        ) : (
+          <Text>No location!</Text>
+        )}
+      </View>
       <View style={styles.actions}>
         <OutlinedButton onPress={getLocation} icon="location">
           Locate User
@@ -67,6 +93,10 @@ const styles = StyleSheet.create({
   },
   actions: {
     marginBottom: 48,
+  },
+  map: {
+    width: "100%",
+    height: "100%",
   },
 });
 
