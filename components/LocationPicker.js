@@ -6,9 +6,13 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import MapView, { Marker } from "react-native-maps";
+import { useEffect, useState } from "react";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
+import MapView from "react-native-maps";
 
 const LocationPicker = () => {
   const [locationPermission, requestPermission] = useForegroundPermissions();
@@ -16,6 +20,15 @@ const LocationPicker = () => {
   const [loading, setIsLoading] = useState(false);
 
   const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const coords = route?.params?.coords;
+      setLocation(coords);
+    }
+  }, [isFocused, route]);
 
   const verifyPermissions = async () => {
     if (locationPermission.status === PermissionStatus.UNDETERMINED) {
@@ -43,7 +56,7 @@ const LocationPicker = () => {
     setIsLoading(true);
     const location = await getCurrentPositionAsync();
     setIsLoading(false);
-    setLocation(location);
+    setLocation(location.coords);
   };
 
   const pickOnMap = () => {
@@ -54,13 +67,13 @@ const LocationPicker = () => {
     <View>
       <View style={styles.mapPreview}>
         {loading ? (
-          <Text>Getting your location...</Text>
+          <Text>Getting your location please wait...</Text>
         ) : location ? (
           <MapView
             style={styles.map}
-            initialRegion={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
+            region={{
+              latitude: location.latitude,
+              longitude: location.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
