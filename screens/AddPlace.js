@@ -1,7 +1,8 @@
 import { View } from "react-native";
+import PlaceForm from "../components/PlaceForm";
 
 const AddPlace = () => {
-  return <View></View>;
+  return <PlaceForm />;
 };
 
 export default AddPlace;
