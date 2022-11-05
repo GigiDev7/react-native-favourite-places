@@ -70,6 +70,7 @@ const LocationPicker = () => {
           <Text>Getting your location please wait...</Text>
         ) : location ? (
           <MapView
+            scrollEnabled={false}
             style={styles.map}
             region={{
               latitude: location.latitude,
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+    borderRadius: 4,
   },
 });
 
