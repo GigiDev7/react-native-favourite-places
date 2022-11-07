@@ -4,11 +4,15 @@ import { Colors } from "../constants/colors";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "./Button";
+import { useNavigation } from "@react-navigation/native";
+import { Place } from "../models/place";
 
 const PlaceForm = () => {
   const [title, setTitle] = useState("");
   const [pickedImage, setPickedImage] = useState();
   const [pickedLocation, setPickedLocation] = useState();
+
+  const navigation = useNavigation();
 
   const handleTitleChange = (enteredValue) => {
     setTitle(enteredValue);
@@ -23,7 +27,10 @@ const PlaceForm = () => {
   };
 
   const handleSavePlace = () => {
-    console.log(title, pickedImage, pickedLocation);
+    const place = new Place(title, pickedImage, "Kutaisi", pickedLocation);
+    navigation.navigate("AllPlaces", {
+      place,
+    });
   };
 
   return (
