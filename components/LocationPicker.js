@@ -14,7 +14,7 @@ import {
 } from "@react-navigation/native";
 import MapView from "react-native-maps";
 
-const LocationPicker = () => {
+const LocationPicker = ({ handleLocationChange }) => {
   const [locationPermission, requestPermission] = useForegroundPermissions();
   const [location, setLocation] = useState();
   const [loading, setIsLoading] = useState(false);
@@ -27,6 +27,7 @@ const LocationPicker = () => {
     if (isFocused && route.params) {
       const coords = route?.params?.coords;
       setLocation(coords);
+      handleLocationChange(coords);
     }
   }, [isFocused, route]);
 
@@ -57,6 +58,7 @@ const LocationPicker = () => {
     const location = await getCurrentPositionAsync();
     setIsLoading(false);
     setLocation(location.coords);
+    handleLocationChange(location.coords);
   };
 
   const pickOnMap = () => {

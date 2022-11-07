@@ -7,12 +7,24 @@ import Button from "./Button";
 
 const PlaceForm = () => {
   const [title, setTitle] = useState("");
+  const [pickedImage, setPickedImage] = useState();
+  const [pickedLocation, setPickedLocation] = useState();
 
   const handleTitleChange = (enteredValue) => {
     setTitle(enteredValue);
   };
 
-  const handleSavePlace = () => {};
+  const handleImageChange = (imageUri) => {
+    setPickedImage(imageUri);
+  };
+
+  const handleLocationChange = (location) => {
+    setPickedLocation(location);
+  };
+
+  const handleSavePlace = () => {
+    console.log(title, pickedImage, pickedLocation);
+  };
 
   return (
     <ScrollView style={styles.form}>
@@ -25,8 +37,8 @@ const PlaceForm = () => {
             onChangeText={handleTitleChange}
           />
         </View>
-        <ImagePicker />
-        <LocationPicker />
+        <ImagePicker handleImageChange={handleImageChange} />
+        <LocationPicker handleLocationChange={handleLocationChange} />
         <Button onPress={handleSavePlace}>Add Place</Button>
       </View>
     </ScrollView>

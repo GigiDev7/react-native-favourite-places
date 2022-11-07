@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Colors } from "../constants/colors";
 import OutlinedButton from "./OutlinedButton";
 
-const ImagePicker = () => {
+const ImagePicker = ({ handleImageChange }) => {
   const [cameraPermissionStatus, requestPermission] = useCameraPermissions();
   const [mediaStatus, requestMediaPermission] = useMediaLibraryPermissions();
   const [imagePrev, setImagePrev] = useState();
@@ -79,6 +79,7 @@ const ImagePicker = () => {
 
     if (image && !image.cancelled) {
       setImagePrev(image.uri);
+      handleImageChange(image.uri);
     }
   };
 
