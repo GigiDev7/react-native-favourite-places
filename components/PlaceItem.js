@@ -10,7 +10,9 @@ const PlaceItem = ({ place, onSelect }) => {
       <Image style={styles.image} source={{ uri: place.imageUri }} />
       <View style={styles.info}>
         <Text style={styles.title}>{place.title}</Text>
-        <Text style={styles.address}>{place.address}</Text>
+        <Text style={styles.address}>
+          {place.address}-lat:{place.location.lat}-lng:{place.location.lng}
+        </Text>
       </View>
     </Pressable>
   );

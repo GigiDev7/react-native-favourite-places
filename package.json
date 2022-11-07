@@ -18,7 +18,11 @@
     "expo-camera": "~12.3.0",
     "expo-image-picker": "~13.3.1",
     "expo-location": "~14.3.0",
-    "react-native-maps": "0.31.1"
+    "react-native-maps": "0.31.1",
+    "expo-file-system": "~14.1.0",
+    "expo-asset": "~8.6.1",
+    "expo-sqlite": "~10.3.0",
+    "expo-app-loading": "~2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

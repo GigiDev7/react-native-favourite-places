@@ -6,6 +6,7 @@ import LocationPicker from "./LocationPicker";
 import Button from "./Button";
 import { useNavigation } from "@react-navigation/native";
 import { Place } from "../models/place";
+import { insertPlace } from "../utils/database";
 
 const PlaceForm = () => {
   const [title, setTitle] = useState("");
@@ -26,11 +27,10 @@ const PlaceForm = () => {
     setPickedLocation(location);
   };
 
-  const handleSavePlace = () => {
+  const handleSavePlace = async () => {
     const place = new Place(title, pickedImage, "Kutaisi", pickedLocation);
-    navigation.navigate("AllPlaces", {
-      place,
-    });
+    await insertPlace(place);
+    navigation.navigate("AllPlaces");
   };
 
   return (
